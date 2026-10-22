@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,noarchive"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,noarchive"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0}img{max-width:100%}[hidden]{display:none!important}</style><meta property="og:type" content="website"><meta property="og:title" content="Furnish my flat in Lisbon. Live in it for free while you do."><meta property="og:description" content="Design competition to furnish a top-floor flat in central Lisbon. Entries close 29 October."><meta property="og:image" content="https://jacolind.github.io/furnish-competition/media/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
 <title>Furnish My Lisbon Flat</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,7 +77,7 @@ dd{margin:2px 0 0;max-width:66ch}
 .gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:4px 0 12px}
 .gallery .ph:first-child{grid-column:span 2;grid-row:span 2}
 @media (max-width:640px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.gallery:not(.all) .ph.more{display:none}
+.gallery .ph:last-child{grid-column:span 2}.gallery .ph:last-child img{aspect-ratio:8/3}
 .ph{display:block;border-radius:3px;overflow:hidden;background:var(--line)}
 .ph img{display:block;width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;max-width:100%}
 .ph:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -132,7 +132,9 @@ footer{padding-top:24px;font-family:var(--mono);font-size:12px;color:var(--muted
     <div>
       <h2>Top floor, 3 bedrooms, a terrace, two balconies</h2>
       <p class="where">Lisbon</p>
-      <p>Photos of every room come after you submit your first design. I email them to you, so you can improve your design with them in a second entry.</p>
+      <div class="gallery" id="gallery"><a class="ph" href="media/f08.jpg" data-i="0"><img src="media/t_f08.jpg" alt="Terrace with sofa and dining set" loading="lazy" width="700" height="560"></a><a class="ph" href="media/f09.jpg" data-i="1"><img src="media/t_f09.jpg" alt="Terrace toward the seating corner" loading="lazy" width="700" height="560"></a><a class="ph" href="media/f02.jpg" data-i="2"><img src="media/t_f02.jpg" alt="Living room, dining table and kitchen" loading="lazy" width="700" height="700"></a><a class="ph" href="media/f03.jpg" data-i="3"><img src="media/t_f03.jpg" alt="Living room with corner sofa and TV" loading="lazy" width="700" height="544"></a><a class="ph" href="media/f05.jpg" data-i="4"><img src="media/t_f05.jpg" alt="Bedroom with the dormer window" loading="lazy" width="700" height="700"></a><a class="ph" href="media/f06.jpg" data-i="5"><img src="media/t_f06.jpg" alt="Bedroom with a double bed" loading="lazy" width="700" height="700"></a><a class="ph" href="media/f04.jpg" data-i="6"><img src="media/t_f04.jpg" alt="Bathroom" loading="lazy" width="560" height="700"></a><a class="ph" href="media/f07.jpg" data-i="7"><img src="media/t_f07.jpg" alt="En-suite shower under the roof window" loading="lazy" width="700" height="700"></a></div>
+      <p class="cap">Visualisations of the flat with sample furniture. Tap a picture to enlarge it.</p>
+      <p>Photos of the empty flat as it is today come after you submit your first design. I email them to you, so you can improve your design with them in a second entry.</p>
       <div class="cols">
         <div>
           <p>The flat fills the top floor of a building refurbished in 2023. The living room opens through a 3.5 m glass wall onto a terrace that gets the afternoon sun. Its ceiling slopes from 2.2 m at the glass to 4.2 m under the ridge.</p>
@@ -307,6 +309,21 @@ footer{padding-top:24px;font-family:var(--mono);font-size:12px;color:var(--muted
 
   <footer>Design competition · 2026</footer>
 </div>
+<div id="lb" hidden role="dialog" aria-label="Photo viewer"><button class="pv" type="button" aria-label="Previous photo">‹</button><img alt=""><button class="nx" type="button" aria-label="Next photo">›</button><button class="x" type="button" aria-label="Close">×</button><div class="n"></div></div>
+<script>
+(function(){
+  const g=document.getElementById("gallery"), lb=document.getElementById("lb"), im=lb.querySelector("img"), n=lb.querySelector(".n");
+  const items=[...g.querySelectorAll(".ph")]; let i=0, x0=null;
+  function show(k){ i=(k+items.length)%items.length; im.src=items[i].getAttribute("href"); im.alt=items[i].querySelector("img").alt; n.textContent=(i+1)+" / "+items.length+" · "+im.alt; }
+  g.addEventListener("click",e=>{ const a=e.target.closest(".ph"); if(!a) return; e.preventDefault(); show(+a.dataset.i); lb.hidden=false; lb.querySelector(".x").focus(); });
+  lb.querySelector(".pv").onclick=()=>show(i-1); lb.querySelector(".nx").onclick=()=>show(i+1);
+  lb.querySelector(".x").onclick=()=>{ lb.hidden=true; items[i].focus(); };
+  lb.addEventListener("click",e=>{ if(e.target===lb) lb.querySelector(".x").click(); });
+  document.addEventListener("keydown",e=>{ if(lb.hidden) return; if(e.key==="Escape") lb.querySelector(".x").click(); if(e.key==="ArrowLeft") show(i-1); if(e.key==="ArrowRight") show(i+1); });
+  lb.addEventListener("touchstart",e=>{ x0=e.touches[0].clientX; },{passive:true});
+  lb.addEventListener("touchend",e=>{ if(x0===null) return; const d=e.changedTouches[0].clientX-x0; if(Math.abs(d)>40) show(i+(d<0?1:-1)); x0=null; });
+})();
+</script>
 
 
 </html>
